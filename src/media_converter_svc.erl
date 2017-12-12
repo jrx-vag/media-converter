@@ -55,7 +55,7 @@ make_service_spec() ->
 
     #{
         callback => media_converter,
-        plugins => [nkapi, nkservice_rest],
+        plugins => [nkapi, nkdomain, nkservice_rest],
         nkapi_server => [#{
             id => media_converter_api,
             url => <<Http2/binary, "/_api, ", Ws2/binary, "/_api/ws">>
@@ -65,7 +65,6 @@ make_service_spec() ->
             url => Http2
         }],
         debug => [
-            {nkdomain_obj_util, all}
         ]
     }.
 

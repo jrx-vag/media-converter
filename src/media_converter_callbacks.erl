@@ -12,16 +12,19 @@ service_api_syntax(<<"media_converter_api">>, Syntax, #nkreq{cmd = <<"media_conv
 service_api_syntax(<<"media_converter_api">>, _Syntax, _Req) ->
     continue.
 
-service_api_allow(<<"media_converter_api">>, #nkreq{cmd = <<"media_converter/login", _/binary>>, user_id = <<>>}) ->
+service_api_allow(<<"media_converter_api">>, #nkreq{cmd = <<"media_converter/login", _/binary>>, user_id = <<>>}=Req) ->
+    lager:info("Allowing media_converter/login for req: ~p", [Req]),
     true;
 
-service_api_allow(<<"media_converter_api">>, #nkreq{cmd = <<"media_converter/", _/binary>>, user_id = <<>>}) ->
+service_api_allow(<<"media_converter_api">>, #nkreq{cmd = <<"media_converter/", _/binary>>, user_id = <<>>}=Req) ->
+    lager:info("Denying media_converter/login for req: ~p", [Req]),
     false;
 
 service_api_allow(<<"media_converter_api">>, #nkreq{cmd = <<"media_converter/", _/binary>>}) ->
     true;
 
-service_api_allow(<<"media_converter_api">>, _Req) ->
+service_api_allow(<<"media_converter_api">>, Req) ->
+    lager:info("Delegating media_converter req to other layers: ~p", [Req]),
     continue.
 
 api_server_http_auth(<<"media_converter_api">>, _HttpReq, _NkReq) ->

@@ -63,7 +63,7 @@ event(?IMAGE_JOB, ?IMAGE_JOB, _, #{ updated_time := Updated,
 
     case CallbackUrl of
         <<"">> ->
-            ager:info("Notifying image processing event via websocket only", []),
+            lager:info("Notifying image processing event via websocket only", []),
             send_event(<<"image.job">>, EventData, Req);
         _ ->
             lager:info("Notifying image processing  event via websocket and callback to ~p", [CallbackUrl]),
