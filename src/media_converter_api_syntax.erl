@@ -1,7 +1,7 @@
 -module(media_converter_api_syntax).
 -export([syntax/2]).
 
-syntax(<<"media_converter/login">>, Syntax) ->
+syntax(<<"login">>, Syntax) ->
     Syntax#{
         user_id => binary,
         password => binary,
@@ -9,13 +9,13 @@ syntax(<<"media_converter/login">>, Syntax) ->
         '__mandatory' => [user_id]
     };
 
-syntax(<<"media_converter/get_file">>, Syntax) ->
+syntax(<<"get_file">>, Syntax) ->
     Syntax#{
         file_id => binary,
         '__mandatory' => [file_id]
     };
 
-syntax(<<"media_converter/update_file">>, Syntax) ->
+syntax(<<"update_file">>, Syntax) ->
     Syntax#{
         file_id => binary,
         name => binary,
@@ -24,17 +24,17 @@ syntax(<<"media_converter/update_file">>, Syntax) ->
         '__mandatory' => [file_id]
     };
 
-syntax(<<"media_converter/latest_files">>, Syntax) ->
+syntax(<<"latest_files">>, Syntax) ->
     Syntax;
 
-syntax(<<"media_converter/transcoding_jobs">>, Syntax) ->
+syntax(<<"transcoding_jobs">>, Syntax) ->
     Syntax;
 
-syntax(<<"media_converter/image_jobs">>, Syntax) ->
+syntax(<<"image_jobs">>, Syntax) ->
     Syntax;
 
 
-syntax(<<"media_converter/convert_video">>, Syntax) ->
+syntax(<<"convert_video">>, Syntax) ->
     Syntax#{
         file_id => binary,
         format => binary,
@@ -46,7 +46,7 @@ syntax(<<"media_converter/convert_video">>, Syntax) ->
                            options => #{} }
     };
 
-syntax(<<"media_converter/convert_audio">>, Syntax) ->
+syntax(<<"convert_audio">>, Syntax) ->
     Syntax#{
         file_id => binary,
         format => binary,
@@ -59,7 +59,7 @@ syntax(<<"media_converter/convert_audio">>, Syntax) ->
     };
 
 
-syntax(<<"media_converter/convert_image">>, Syntax) ->
+syntax(<<"convert_image">>, Syntax) ->
     Syntax#{
         file_id => binary,
         format => binary,
@@ -71,7 +71,7 @@ syntax(<<"media_converter/convert_image">>, Syntax) ->
 
     };
 
-syntax(<<"media_converter/resize_image">>, Syntax) ->
+syntax(<<"resize_image">>, Syntax) ->
     Syntax#{
         file_id => binary,
         format => binary,

@@ -21,7 +21,7 @@ cmd(<<"login">>, #nkreq{srv_id=?SRV, data=#{user_id:=UserId} = Data} = Req) ->
             Other
     end;
 
-cmd(<<"media_converter/get_file">>, #nkreq{data=#{file_id:=FileId}} = Req) ->
+cmd(<<"get_file">>, #nkreq{data=#{file_id:=FileId}} = Req) ->
     case nkservice_api:api(<<"objects/file/get">>, #{id=>FileId}, Req) of
         {ok, Reply, Req2} ->
             {File, Reply2} = maps:take(?DOMAIN_FILE, Reply),
@@ -31,13 +31,13 @@ cmd(<<"media_converter/get_file">>, #nkreq{data=#{file_id:=FileId}} = Req) ->
             Other
     end;
 
-cmd(<<"media_converter/update_file">>, #nkreq{data=#{file_id:=FileId} = Data} = Req) ->
+cmd(<<"update_file">>, #nkreq{data=#{file_id:=FileId} = Data} = Req) ->
     Obj1 = maps:with([name, description, icon_id], Data),
     Obj2 = Obj1#{id=>FileId},
     nkservice_api:api(<<"objects/file/update">>, Obj2, Req);
 
 
-cmd(<<"media_converter/latest_files">>, Req) ->
+cmd(<<"latest_files">>, Req) ->
     case media_converter_util:recent_items( 40, <<"file">>, <<"files">>, fun media_converter_util:file_view/1 ) of
         {ok, Items } ->
             {ok, Items, Req};
@@ -45,7 +45,7 @@ cmd(<<"media_converter/latest_files">>, Req) ->
             {error, Error}
     end;
 
-cmd(<<"media_converter/transcoding_jobs">>, Req) ->
+cmd(<<"transcoding_jobs">>, Req) ->
     case media_converter_util:recent_items( 40, <<"transcoder.job">>, <<"transcodings">>, fun media_converter_util:transcoding_view/1 ) of
         {ok, Items } ->
             {ok, Items, Req};
@@ -53,7 +53,7 @@ cmd(<<"media_converter/transcoding_jobs">>, Req) ->
             {error, Error}
     end;
 
-cmd(<<"media_converter/image_jobs">>, Req) ->
+cmd(<<"image_jobs">>, Req) ->
     case media_converter_util:recent_items( 10, <<"image.job">>, <<"image_jobs">>, fun media_converter_util:image_job_view/1 ) of
         {ok, Items } ->
             {ok, Items, Req};
@@ -61,7 +61,7 @@ cmd(<<"media_converter/image_jobs">>, Req) ->
             {error, Error}
     end;
 
-cmd(<<"media_converter/convert_video">>, #nkreq{user_id=UserId, data=Data}=Req) ->
+cmd(<<"convert_video">>, #nkreq{user_id=UserId, data=Data}=Req) ->
     case nkdomain_transcoder_job_obj:create(?NKROOT, ?BASE_DOMAIN, UserId, Data) of
         {ok, #{ obj_id := JobId }=Job, Transcoder, File} ->
             {ok, Req2} = nkdomain_transcoder_job_obj:subscribe(Job, Req),
@@ -74,7 +74,7 @@ cmd(<<"media_converter/convert_video">>, #nkreq{user_id=UserId, data=Data}=Req) 
     end;
 
 
-cmd(<<"media_converter/convert_audio">>, #nkreq{user_id=UserId, data=Data}=Req) ->
+cmd(<<"convert_audio">>, #nkreq{user_id=UserId, data=Data}=Req) ->
     case nkdomain_transcoder_job_obj:create(?NKROOT, ?BASE_DOMAIN, UserId, Data) of
         {ok, #{ obj_id := JobId }=Job, Transcoder, File} ->
             {ok, Req2} = nkdomain_transcoder_job_obj:subscribe(Job, Req),
@@ -86,7 +86,7 @@ cmd(<<"media_converter/convert_audio">>, #nkreq{user_id=UserId, data=Data}=Req) 
             {error, Error}
     end;
 
-cmd(<<"media_converter/resize_image">>, #nkreq{user_id=UserId, data=Data}=Req) ->
+cmd(<<"resize_image">>, #nkreq{user_id=UserId, data=Data}=Req) ->
     case nkdomain_image_job_obj:create(?NKROOT, ?BASE_DOMAIN, UserId, Data#{action => resize}) of
         {ok, #{ obj_id := JobId }=Job, Processor, File, Store} ->
             {ok, Req2} = nkdomain_image_job_obj:subscribe(Job, Req),
@@ -98,7 +98,7 @@ cmd(<<"media_converter/resize_image">>, #nkreq{user_id=UserId, data=Data}=Req) -
             {error, Error}
     end;
 
-cmd(<<"media_converter/convert_image">>, #nkreq{user_id=UserId, data=Data}=Req) ->
+cmd(<<"convert_image">>, #nkreq{user_id=UserId, data=Data}=Req) ->
     case nkdomain_image_job_obj:create(?NKROOT, ?BASE_DOMAIN, UserId, Data#{action => convert}) of
         {ok, #{ obj_id := JobId }=Job, Processor, File, Store} ->
             {ok, Req2} = nkdomain_image_job_obj:subscribe(Job, Req),
@@ -112,5 +112,5 @@ cmd(<<"media_converter/convert_image">>, #nkreq{user_id=UserId, data=Data}=Req) 
 
 
 cmd(_Cmd, Req) ->
-    lager:error("NKLOG MEDIA CONVERTER Not Implemented ~p", [_Cmd]),
+    lager:error("NKLOG MEDIA CONVERTER Not Implemented ~p", [_Cmd, Req]),
     {error, not_implemented, Req}.
