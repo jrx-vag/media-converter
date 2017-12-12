@@ -47,7 +47,6 @@ make_service_spec() ->
     Port = media_converter_app:get(listen_port),
     Path = media_converter_app:get(listen_path),
     Secure = media_converter_app:get(listen_secure),
-    Priv = code:priv_dir(sipstorm_c4),
     BinPort = nklib_util:to_binary(Port),
     Http1 = case Secure of true -> <<"https">>; false -> <<"http">> end,
     Http2 = <<Http1/binary, "://", Host/binary, ":", BinPort/binary, Path/binary>>,
@@ -56,12 +55,7 @@ make_service_spec() ->
 
     #{
         callback => media_converter,
-        plugins => [nkapi, nkservice_webserver, nkservice_rest],
-        nkservice_webserver => [#{
-            id => <<"media_converter">>,
-            url => <<Http2/binary, "/c4">>,
-            file_path => filename:join([Priv, "c4"])
-        }],
+        plugins => [nkapi, nkservice_rest],
         nkapi_server => [#{
             id => media_converter_api,
             url => <<Http2/binary, "/_api, ", Ws2/binary, "/_api/ws">>
