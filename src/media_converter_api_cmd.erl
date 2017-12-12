@@ -5,7 +5,7 @@
 -include_lib("nkservice/include/nkservice.hrl").
 -include_lib("nkdomain/include/nkdomain.hrl").
 
-cmd(<<"media_converter/login">>, #nkreq{srv_id=?SRV, data=#{user_id:=UserId} = Data} = Req) ->
+cmd(<<"login">>, #nkreq{srv_id=?SRV, data=#{user_id:=UserId} = Data} = Req) ->
     %% Associate the session to sipstorm to filter events
     SessData1 = maps:with([password, domain_id, meta], Data),
     SessData2 = SessData1#{
