@@ -1,0 +1,17 @@
+{application, media_converter,
+ [{description, "Netcomposer Image processing & video transcoder service"},
+  {vsn, "0.1.0"},
+  {registered, []},
+  {mod, { media_converter_app, []}},
+  {applications,
+   [kernel,
+    stdlib,
+    nkimage,
+    nktranscoder
+   ]},
+  {env,[]},
+  {modules, []},
+  {maintainers, []},
+  {licenses, ["Apache 2.0"]},
+  {links, []}
+ ]}.

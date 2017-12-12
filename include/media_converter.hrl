@@ -1,0 +1,5 @@
+-ifndef(MEDIA_CONVERTER_HRL_).
+-define(MEDIA_CONVERTER_HRL_, 1).
+-define(SRV, 'media_converter').
+-define(BASE_DOMAIN, <<"/media_converter">>).
+-endif.
