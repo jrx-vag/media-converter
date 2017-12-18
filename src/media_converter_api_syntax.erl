@@ -78,8 +78,10 @@ syntax(<<"resize_image">>, Syntax) ->
         width => integer,
         height => integer,
         callback_url => binary,
+        options => map,
         '__mandatory' => [file_id],
-        '__defaults' => #{ format => <<"image/jpeg">> }
+        '__defaults' => #{ format => <<"image/jpeg">>,
+                           options => #{} }
     };
 
 syntax(_Cmd, Syntax) ->
