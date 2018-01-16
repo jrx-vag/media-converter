@@ -25,7 +25,8 @@ stop() ->
     nkservice:stop(?SRV).
 
 load_objs() ->
-    nkdomain_node:make_objs(objs()).
+    nkdomain_node:make_objs(objs()),
+    nkdomain_node:make_objs(providers()).
 
 objs() -> [
            #{ path => nklib_util:bjoin(["/services", ?SRV], <<"/">>),
@@ -41,6 +42,37 @@ objs() -> [
               srv_id => ?SRV
             }
           ].
+
+providers() -> [
+                            #{ path => "/image.processors/local",
+                               <<"image.processor">> => #{
+                                  class => <<"pillow">>,
+                                  config => #{
+                                    host => <<"localhost">>,
+                                    port => 9001,
+                                    path => <<"/">>,
+                                    scheme => http
+                                   }
+                                 }
+                             },
+                            
+                            #{ path => "/transcoder.servers/local",
+                               <<"transcoder.server">> => #{
+                                  class => <<"ffmpeg">>,
+                                  config => #{
+                                    host => <<"localhost">>,
+                                    port => 3001,
+                                    path => <<"/">>,
+                                    scheme => transcoder
+                                   }
+                                 }
+                             }
+
+                           ].
+
+
+
+
 
 make_service_spec() ->
     Host = media_converter_app:get(listen_ip),
