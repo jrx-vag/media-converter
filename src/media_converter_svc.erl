@@ -29,46 +29,49 @@ load_objs() ->
     nkdomain_node:make_objs(providers()).
 
 objs() -> [
-           #{ path => nklib_util:bjoin(["/services", ?SRV], <<"/">>),
-              name => "Media Converter",
-              srv_id => ?SRV,
-              ?DOMAIN_SERVICE => #{
-                 spec => make_service_spec()
-                }
-            },
+    #{
+        path => nklib_util:bjoin(["/services", ?SRV], <<"/">>),
+        name => "Media Converter",
+        srv_id => ?SRV,
+        ?DOMAIN_SERVICE => #{
+            spec => make_service_spec()
+        }
+    },
            
-           #{ path => "/media_converter",
-              name => "Media Converter",
-              srv_id => ?SRV
-            }
-          ].
+    #{
+        path => "/media_converter",
+        name => "Media Converter",
+        srv_id => ?SRV
+    }
+].
 
 providers() -> [
-                            #{ path => "/image.processors/local",
-                               <<"image.processor">> => #{
-                                  class => <<"pillow">>,
-                                  config => #{
-                                    host => <<"localhost">>,
-                                    port => 9001,
-                                    path => <<"/">>,
-                                    scheme => http
-                                   }
-                                 }
-                             },
-                            
-                            #{ path => "/transcoder.servers/local",
-                               <<"transcoder.server">> => #{
-                                  class => <<"ffmpeg">>,
-                                  config => #{
-                                    host => <<"localhost">>,
-                                    port => 3001,
-                                    path => <<"/">>,
-                                    scheme => transcoder
-                                   }
-                                 }
-                             }
-
-                           ].
+    #{
+        path => "/image.processors/local",
+        <<"image.processor">> => #{
+            class => pillow,
+            config => #{
+                host => <<"localhost">>,
+                port => 9001,
+                path => <<>>,
+                scheme => http
+            }
+        }
+    },
+    
+    #{
+        path => "/transcoder.servers/local",
+        <<"transcoder.server">> => #{
+            class => ffmpeg,
+            config => #{
+                host => <<"localhost">>,
+                port => 3001,
+                path => <<"/">>,
+                scheme => transcoder
+            }
+        }
+    }
+].
 
 
 
