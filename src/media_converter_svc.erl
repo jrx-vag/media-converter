@@ -44,9 +44,11 @@ objs() -> [
           ].
 
 providers() -> [
-                            #{ path => "/image.processors/local",
+                            #{ path => "/image.processors/local2",
+                               type => <<"image.processor">>,
+                               srv_id => nkroot,
                                <<"image.processor">> => #{
-                                  class => <<"pillow">>,
+                                  class => pillow,
                                   config => #{
                                     host => <<"localhost">>,
                                     port => 9001,
@@ -58,7 +60,7 @@ providers() -> [
                             
                             #{ path => "/transcoder.servers/local",
                                <<"transcoder.server">> => #{
-                                  class => <<"ffmpeg">>,
+                                  class => ffmpeg,
                                   config => #{
                                     host => <<"localhost">>,
                                     port => 3001,

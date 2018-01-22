@@ -84,6 +84,14 @@ syntax(<<"resize_image">>, Syntax) ->
                            options => #{} }
     };
 
+syntax(<<"image_info">>, Syntax) ->
+    Syntax#{
+      file_id => binary,
+      options => map,
+      '__mandatory' => [file_id],
+      '__defaults' => #{ options => #{} }
+     };
+
 syntax(_Cmd, Syntax) ->
     Syntax.
 

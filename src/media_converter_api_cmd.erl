@@ -113,6 +113,14 @@ cmd(<<"convert_image">>, #nkreq{user_id=UserId, data=Data}=Req) ->
     end;
 
 
+cmd(<<"image_info">>, #nkreq{user_id=UserId, data=Data}=Req) ->
+    case nkdomain_image_job_obj:info(?NKROOT, ?BASE_DOMAIN, UserId, Data#{action => info}) of 
+        {ok, ImageInfo} ->
+            {ok, ImageInfo, Req}; 
+        {error, Error} -> 
+            {error, Error}
+    end;
+
 cmd(_Cmd, Req) ->
     lager:error("NKLOG MEDIA CONVERTER Not Implemented ~p", [_Cmd, Req]),
     {error, not_implemented, Req}.
