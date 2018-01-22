@@ -2,13 +2,11 @@
 -compile(export_all).
 
 -include_lib("nkdomain/include/nkdomain.hrl").
--include_lib("nkchat/include/nkchat.hrl").
 -include_lib("nkservice/include/nkservice.hrl").
--include_lib("nkmail/include/nkmail.hrl").
 -include("media_converter.hrl").
 
--define(HTTP, "https://127.0.0.1:13091/mc/v09").
--define(WS, "wss://127.0.0.1:13091/mc/v09/_api/ws").
+-define(HTTP, "http://127.0.0.1:13091/mc/v09").
+-define(WS, "ws://127.0.0.1:13091/mc/v09/_api/ws").
 %-define(HTTP, "http://127.0.0.1:13091/mc/v09").
 %-define(WS, "ws://127.0.0.1:13091/mc/v09/_api/ws").
 
@@ -95,6 +93,10 @@ resize_image(FileId, Format, Width) ->
         height=>Width},
     cmd(<<"resize_image">>, Data).
 
+
+image_info(FileId) -> 
+    Data = #{ file_id => FileId },
+    cmd(<<"image_info">>, Data).
 
 %% ===================================================================
 %% HTTP

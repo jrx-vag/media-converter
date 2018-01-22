@@ -60,6 +60,19 @@ providers() -> [
     },
     
     #{
+        path => "/image.processors/pillow",
+        <<"image.processor">> => #{
+            class => pillow,
+            config => #{
+                host => <<"localhost">>,
+                port => 9001,
+                path => <<>>,
+                scheme => http
+            }
+        }
+    },
+
+    #{
         path => "/transcoder.servers/local",
         <<"transcoder.server">> => #{
             class => ffmpeg,
