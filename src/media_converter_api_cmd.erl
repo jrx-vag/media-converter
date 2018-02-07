@@ -96,6 +96,10 @@ cmd(<<"resize_image">>, #nkreq{user_id=UserId, data=Data}=Req) ->
             {ok, #{ type => <<"image.job">>,
                     obj_id => JobId,
                     status => <<"processing">> }, Req2};
+        {error, no_thumbnail_needed} ->
+            {error, no_thumbnail_needed};
+        {error, thumbnail_bigger} ->
+            {error, thumbnail_bigger};
         {error, Error} ->
             {error, Error}
     end;
