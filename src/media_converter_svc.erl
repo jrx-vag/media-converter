@@ -1,5 +1,7 @@
 -module(media_converter_svc).
+
 -export([start_services/1, load_objs/0, start/0, stop/0]).
+
 -include("media_converter.hrl").
 -include_lib("nkdomain/include/nkdomain.hrl").
 -include_lib("nktranscoder/include/nktranscoder.hrl").
