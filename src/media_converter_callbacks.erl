@@ -32,8 +32,8 @@ api_server_http_auth(<<"media_converter_api">>, _HttpReq, _NkReq) ->
 
 nkservice_rest_http(_Id, get, [<<"_file">>, FileId], Req) ->
     case nkdomain_file_obj:http_get(FileId, Req) of
-        {ok, CT, Bin} ->
-            {http, 200, [{<<"Content-Type">>, CT}], Bin};
+        {ok, CT, Bin, Req2} ->
+            {http, 200, [{<<"Content-Type">>, CT}], Bin, Req2};
         {error, Error} ->
             nkservice_rest_http:reply_json({error, Error}, Req)
     end;
@@ -41,15 +41,15 @@ nkservice_rest_http(_Id, get, [<<"_file">>, FileId], Req) ->
 
 nkservice_rest_http(_Id, post, [<<"_file">>], Req) ->
     case nkdomain_file_obj:http_post(Req) of
-        {ok, ObjId, Path, _Obj} ->
+        {ok, ObjId, Path, _Obj, Req2} ->
             Reply = #{obj_id=>ObjId, path=>Path},
-            {http, 200, cors(), nklib_json:encode(Reply)};
+            {http, 200, cors(), nklib_json:encode(Reply), Req2};
         {error, Error} ->
-            {http, 500, cors(), nklib_json:encode(#{reason => Error})}
+            {http, 500, cors(), nklib_json:encode(#{reason => Error}), Req}
     end;
 
-nkservice_rest_http(_Id, options, [<<"_file">>], _Req) ->
-    {http, 200, cors(), []};
+nkservice_rest_http(_Id, options, [<<"_file">>], Req) ->
+    {http, 200, cors(), [], Req};
 
 nkservice_rest_http(_Id, _Method, _Path, _Req) ->
     continue.
