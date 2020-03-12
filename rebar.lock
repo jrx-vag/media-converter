@@ -44,7 +44,7 @@
  {<<"jsx">>,{pkg,<<"jsx">>,<<"2.8.0">>},3},
  {<<"lager">>,
   {git,"git://github.com/basho/lager.git",
-       {ref,"bce5504a955e52be8d5cf4b3c6b1fcd898ab5756"}},
+       {ref,"81eaef0ce98fdbf64ab95665e3bc2ec4b24c7dac"}},
   1},
  {<<"lhttpc">>,{pkg,<<"lhttpc">>,<<"1.5.3">>},3},
  {<<"luerl">>,
